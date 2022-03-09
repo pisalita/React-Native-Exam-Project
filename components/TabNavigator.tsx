@@ -11,9 +11,10 @@ const TabNavigator = () => {
         headerShown: false,
       }}
     >
-      <Tab.Screen name="Chat" component={ChatStackNavigator} />
-      <Tab.Screen name="Posts" component={ChatStackNavigator} />
       <Tab.Screen name="Home" component={ChatStackNavigator} />
+      <Tab.Screen name="Posts" component={ChatStackNavigator} />
+      <Tab.Screen name="Chat" component={ChatStackNavigator} />
+      <Tab.Screen name="Test" component={ChatStackNavigator} />
     </Tab.Navigator>
   );
 };
