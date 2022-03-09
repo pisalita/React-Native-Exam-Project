@@ -6,7 +6,7 @@ import {
   FlatList,
   NativeSyntheticEvent,
   TextInputChangeEventData,
-  _View,
+  StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -14,7 +14,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../types/navigations";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { createChatroom } from "../features/Chatrooms";
-import tw from "tailwind-rn";
 
 type ScreenNavigationType = NativeStackNavigationProp<
   StackParamList,
@@ -35,13 +34,18 @@ const Screen1 = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
+        style={styles.flatList}
         data={chatrooms}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => <Text>{item.title}</Text>}
       />
-      <TextInput value={chatroomTitle} onChange={onTitleChange}></TextInput>
+      <TextInput
+        value={chatroomTitle}
+        onChange={onTitleChange}
+        placeholder="Chatroom title"
+      />
       <View>
         <Button
           title="Create chatroom"
@@ -62,3 +66,15 @@ const Screen1 = () => {
 };
 
 export default Screen1;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  flatList: {
+    backgroundColor: "red",
+  },
+});

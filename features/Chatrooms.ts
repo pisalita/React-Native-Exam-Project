@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Chatroom } from "../interfaces/IChatRoom";
-import { store } from "../app/store";
 
 interface ChatroomsSliceState {
   chatrooms: Chatroom[];
@@ -9,7 +8,7 @@ interface ChatroomsSliceState {
 const initialState: ChatroomsSliceState = {
   chatrooms: [
     {
-      id: 1,
+      id: "0",
       title: "testroom - redux test",
       messages: ["test message", "another test message"],
     },
@@ -24,7 +23,7 @@ export const chatroomsSlice = createSlice({
       state.chatrooms = [
         ...state.chatrooms,
         {
-          id: state.chatrooms.length,
+          id: state.chatrooms.length.toString(),
           title: action.payload,
           messages: [],
         },
