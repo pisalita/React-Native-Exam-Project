@@ -38,7 +38,7 @@ const Screen1 = () => {
       <FlatList
         style={styles.flatList}
         data={chatrooms}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Text>{item.title}</Text>}
       />
       <TextInput
@@ -50,7 +50,7 @@ const Screen1 = () => {
         <Button
           title="Create chatroom"
           onPress={() => {
-            if (chatroomTitle != null) {
+            if (chatroomTitle !== null) {
               dispatch(createChatroom(chatroomTitle));
               setChatroomTitle("");
             }
