@@ -17,10 +17,10 @@ import { createChatroom } from "../features/Chatrooms";
 
 type ScreenNavigationType = NativeStackNavigationProp<
   ChatStackParamList,
-  "Screen1"
+  "ChatroomsList"
 >;
 
-const Screen1 = () => {
+const ChatroomsList = () => {
   const navigation = useNavigation<ScreenNavigationType>();
   const chatrooms = useAppSelector((state) => state.chatrooms.chatrooms);
   const dispatch = useAppDispatch();
@@ -65,7 +65,7 @@ const Screen1 = () => {
   );
 };
 
-export default Screen1;
+export default ChatroomsList;
 
 const styles = StyleSheet.create({
   container: {
