@@ -1,27 +1,22 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { ActionSheetIOS } from "react-native";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../interfaces/IUser";
 
 interface UserSliceState {
   user: User | null;
+  error: any;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 const initialState: UserSliceState = {
   user: null,
+  error: null,
   loading: "idle",
-};
-
-let userDetails: User = {
-  name: "",
-  email: "",
-  displayName: "",
-  photoUrl: "",
 };
 
 export const createUser = createAsyncThunk(
   "user/createUser",
-  async (user: User) => {
-    const { name, email, password, displayName, photoUrl } = user;
+  async (user: User, { rejectWithValue }) => {
+    const { email, password } = user;
+
     const res = await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAZ8nPUBrJHcHbtsNUpKoycYdPVguoFffA",
       {
@@ -32,17 +27,15 @@ export const createUser = createAsyncThunk(
         body: JSON.stringify({
           email,
           password,
+          returnSecureToken: true,
         }),
       }
     );
-    userDetails = {
-      name,
-      email,
-      displayName,
-      photoUrl,
-    };
-    const formattedResponse = await res.json();
-    return formattedResponse as User;
+    if (!res.ok) {
+      return rejectWithValue(await res.json());
+    } else {
+      return { email };
+    }
   }
 );
 
@@ -55,16 +48,11 @@ export const userSlice = createSlice({
       state.loading = "pending";
     });
     builder.addCase(createUser.fulfilled, (state, action) => {
-      state.user = {
-        // name: userDetails.name,
-        // email: action.payload.email,
-        // displayName: userDetails.displayName,
-        // photoUrl: userDetails.photoUrl,
-        ...action.payload,
-      };
+      state.user = action.payload;
       state.loading = "succeeded";
     });
-    builder.addCase(createUser.rejected, (state) => {
+    builder.addCase(createUser.rejected, (state, action) => {
+      state.error = action.payload;
       state.loading = "failed";
     });
   },

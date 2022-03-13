@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { createUser } from "../features/User";
 
-const Login = () => {
+const CreateUser = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -93,4 +93,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default CreateUser;

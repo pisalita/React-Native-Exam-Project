@@ -1,15 +1,17 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { useAppSelector } from "../app/hooks";
-import Login from "../screens/Login";
+import CreateUser from "../screens/CreateUser";
 import ChatStackNavigator from "./ChatStackNavigator";
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
   const user = useAppSelector((state) => state.user.user);
   const loading = useAppSelector((state) => state.user.loading);
+  const error = useAppSelector((state) => state.user.error);
   console.log(user);
   console.log(loading);
+  console.log(error);
 
   return (
     <>
@@ -25,7 +27,7 @@ const TabNavigator = () => {
           <Tab.Screen name="Test" component={ChatStackNavigator} />
         </Tab.Navigator>
       ) : (
-        <Login />
+        <CreateUser />
       )}
     </>
   );
