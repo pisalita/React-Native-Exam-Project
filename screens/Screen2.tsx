@@ -2,10 +2,10 @@ import { View, Text, Button } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../types/navigations";
+import { ChatStackParamList } from "../types/ChatStackParamList";
 
 type ScreenNavigationType = NativeStackNavigationProp<
-  StackParamList,
+  ChatStackParamList,
   "Screen2"
 >;
 

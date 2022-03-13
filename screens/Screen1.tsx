@@ -11,12 +11,12 @@ import {
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../types/navigations";
+import { ChatStackParamList } from "../types/ChatStackParamList";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { createChatroom } from "../features/Chatrooms";
 
 type ScreenNavigationType = NativeStackNavigationProp<
-  StackParamList,
+  ChatStackParamList,
   "Screen1"
 >;
 

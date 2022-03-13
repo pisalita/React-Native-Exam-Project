@@ -1,15 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import TabNavigator from "./components/TabNavigator";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { useAppSelector } from "./app/hooks";
+import Index from "./components/Index";
 
 export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <TabNavigator />
+        <Index />
       </NavigationContainer>
     </Provider>
   );
