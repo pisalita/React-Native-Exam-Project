@@ -1,19 +1,20 @@
 import {
-  View,
   Text,
   TextInput,
   NativeSyntheticEvent,
   TextInputChangeEventData,
   Button,
+  View,
+  SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch } from "../app/hooks";
 import { createUser } from "../features/User";
 
 const CreateUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const dispatch = useAppDispatch();
 
   const combinedOnChange = (
@@ -26,7 +27,6 @@ const CreateUser = () => {
 
   return (
     <SafeAreaView>
-      <Text>Login</Text>
       <TextInput
         value={email}
         onChange={(e) => {
@@ -35,16 +35,25 @@ const CreateUser = () => {
         placeholder="email"
       />
       <TextInput
+        secureTextEntry={true}
         value={password}
         onChange={(e) => {
           combinedOnChange(setPassword, e);
         }}
         placeholder="password"
       />
+      <TextInput
+        secureTextEntry={true}
+        value={password2}
+        onChange={(e) => {
+          combinedOnChange(setPassword2, e);
+        }}
+        placeholder="password"
+      />
       <Button
         title="Create user"
         onPress={() => {
-          if (email && password !== "") {
+          if (email && password !== "" && password === password2) {
             dispatch(createUser({ email, password }));
           }
         }}

@@ -9,8 +9,8 @@ const Stack = createNativeStackNavigator<LoginStackParamList>();
 const LoginStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="CreateUserScreen" component={CreateUser} />
       <Stack.Screen name="LoginScreen" component={Login} />
+      <Stack.Screen name="CreateUserScreen" component={CreateUser} />
     </Stack.Navigator>
   );
 };
