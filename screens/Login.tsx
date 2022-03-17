@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LoginStackParamList } from "../types/LoginStackParamList";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import CustomButton from "../components/CustomButton";
+import CustomInputField from "../components/CustomInputfield";
 
 type ScreenNavigationType = NativeStackNavigationProp<
   LoginStackParamList,
@@ -39,21 +40,29 @@ const Login = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../logo.png")} />
-      <TextInput
-        value={email}
-        onChange={(e) => {
-          combinedOnChange(setEmail, e);
-        }}
-        placeholder="email"
-      />
-      <TextInput
-        secureTextEntry={true}
-        value={password}
-        onChange={(e) => {
-          combinedOnChange(setPassword, e);
-        }}
-        placeholder="password"
-      />
+      <Text>Log in</Text>
+
+      <View style={styles.inputfieldContainer}>
+        <CustomInputField
+          label="E-MAIL"
+          value={email}
+          secureTextEntry={false}
+          onChange={(e) => {
+            combinedOnChange(setEmail, e);
+          }}
+          //borderBottom={true}
+        />
+        <CustomInputField
+          label="PASSWORD"
+          value={password}
+          secureTextEntry={true}
+          onChange={(e) => {
+            combinedOnChange(setPassword, e);
+          }}
+          //borderBottom={false}
+        />
+      </View>
+
       <CustomButton
         title="Login"
         onPress={() => {
@@ -62,10 +71,12 @@ const Login = () => {
           }
         }}
       />
-      <Button
-        title="Create User"
-        onPress={() => navigation.navigate("CreateUserScreen")}
-      />
+      <Text>
+        Don't have an account?
+        <Text onPress={() => navigation.navigate("CreateUserScreen")}>
+          Sign up
+        </Text>
+      </Text>
     </SafeAreaView>
   );
 };
@@ -82,5 +93,10 @@ const styles = StyleSheet.create({
     margin: 20,
     width: 114,
     height: 114,
+  },
+  inputfieldContainer: {
+    alignSelf: "stretch",
+    overflow: "hidden",
+    shadowColor: '#000',
   },
 });

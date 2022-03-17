@@ -1,5 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../interfaces/IUser";
+
+type errorFormat = {
+  error: {
+    errors: [
+      {
+        domain: string;
+        reason: string;
+        message: string;
+      }
+    ];
+    code: number;
+    message: string;
+  };
+};
 
 interface UserSliceState {
   user: User | null;
@@ -76,7 +90,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.user = {
-        idToken: action.payload.idToken,
+        localId: action.payload.localId,
         email: action.payload.email,
       };
       state.loading = "succeeded";
@@ -90,7 +104,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = {
-        idToken: action.payload.idToken,
+        localId: action.payload.localId,
         email: action.payload.email,
       };
       state.loading = "succeeded";

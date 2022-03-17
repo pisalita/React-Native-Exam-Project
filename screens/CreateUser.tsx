@@ -1,10 +1,8 @@
 import {
-  Text,
   TextInput,
   NativeSyntheticEvent,
   TextInputChangeEventData,
   Button,
-  View,
   SafeAreaView,
 } from "react-native";
 import React, { useState } from "react";
