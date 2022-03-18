@@ -42,7 +42,7 @@ const Login = () => {
       <Image style={styles.logo} source={require("../logo.png")} />
       <Text>Log in</Text>
 
-      <View style={styles.inputfieldContainer}>
+      <View style={[styles.inputfieldContainer, styles.shadow]}>
         <CustomInputField
           label="E-MAIL"
           value={email}
@@ -50,7 +50,7 @@ const Login = () => {
           onChange={(e) => {
             combinedOnChange(setEmail, e);
           }}
-          //borderBottom={true}
+          borderBottom={true}
         />
         <CustomInputField
           label="PASSWORD"
@@ -59,7 +59,6 @@ const Login = () => {
           onChange={(e) => {
             combinedOnChange(setPassword, e);
           }}
-          //borderBottom={false}
         />
       </View>
 
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginHorizontal: 14,
   },
   logo: {
     margin: 20,
@@ -96,7 +94,19 @@ const styles = StyleSheet.create({
   },
   inputfieldContainer: {
     alignSelf: "stretch",
-    overflow: "hidden",
-    shadowColor: '#000',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#EEEEEE",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
 });

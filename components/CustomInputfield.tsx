@@ -13,19 +13,19 @@ const CustomInputfield = ({
   value,
   onChange,
   secureTextEntry,
-}: //borderBottom,
-{
+  borderBottom,
+}: {
   label: string;
   value: string;
   onChange: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
   secureTextEntry: boolean;
-  //borderBottom: boolean;
+  borderBottom?: boolean;
 }) => {
   return (
     <View
       style={[
         styles.inputFieldContainer,
-        //borderBottom && { borderBottomWidth: 1 },
+        borderBottom && { borderBottomWidth: 1 },
       ]}
     >
       <Text style={styles.inputFieldLabel}>{label}</Text>
@@ -44,7 +44,7 @@ export default CustomInputfield;
 const styles = StyleSheet.create({
   inputFieldContainer: {
     alignSelf: "stretch",
-    
+    borderColor: "#EEEEEE",
   },
   inputFieldLabel: {
     fontWeight: "bold",
