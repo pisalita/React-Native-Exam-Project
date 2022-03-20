@@ -56,7 +56,7 @@ const CreateUser = () => {
           borderBottom={true}
         />
         <CustomInputfield
-          label="PASSWORD"
+          label="REPEAT PASSWORD"
           value={password2}
           secureTextEntry={true}
           onChange={(e) => {
