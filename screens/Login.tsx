@@ -70,7 +70,7 @@ const Login = () => {
       </Text>
 
       <CustomButton
-        title="Login"
+        title="Log in"
         onPress={() => {
           if (email && password !== "") {
             dispatch(login({ email, password }));
