@@ -65,7 +65,15 @@ const CreateUser = () => {
           errorText="Please enter a password"
         />
         {password !== password2 && (
-          <Text style={styles.passwordMatch}> Passwords don't match </Text>
+          <Text style={styles.passwordMatch}>
+            {" "}
+            <Image
+              style={styles.errorIcon}
+              source={require("../errorIcon.png")}
+            />
+            {"   "}
+            Passwords don't match{" "}
+          </Text>
         )}
       </View>
 
@@ -120,12 +128,16 @@ const styles = StyleSheet.create({
     fontSize: 26,
   },
   passwordMatch: {
-    color: "red",
+    color: "#B10024",
     fontWeight: "bold",
     alignSelf: "stretch",
     paddingVertical: 10,
     borderTopWidth: 1,
     borderColor: "#EEEEEE",
     textAlign: "center",
+  },
+  errorIcon: {
+    width: 20,
+    height: 20,
   },
 });
