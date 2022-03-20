@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../logo.png")} />
-      <Text>Log in</Text>
+      <Text style={styles.title}>Log in</Text>
 
       <View style={[styles.inputfieldContainer, styles.shadow]}>
         <CustomInputField
@@ -50,6 +50,7 @@ const Login = () => {
           onChange={(e) => {
             combinedOnChange(setEmail, e);
           }}
+          errorText="Please enter an e-mail"
           borderBottom={true}
         />
         <CustomInputField
@@ -59,8 +60,14 @@ const Login = () => {
           onChange={(e) => {
             combinedOnChange(setPassword, e);
           }}
+          errorText="Please enter a password"
         />
       </View>
+
+      <Text style={{ color: "#5050A5", margin: 20, fontWeight: "bold" }}>
+        {" "}
+        Forgot Password?{" "}
+      </Text>
 
       <CustomButton
         title="Login"
@@ -70,9 +77,13 @@ const Login = () => {
           }
         }}
       />
-      <Text>
+      <Text style={{ color: "#5050A5" }}>
         Don't have an account?
-        <Text onPress={() => navigation.navigate("CreateUserScreen")}>
+        <Text
+          style={{ fontWeight: "bold" }}
+          onPress={() => navigation.navigate("CreateUserScreen")}
+        >
+          {" "}
           Sign up
         </Text>
       </Text>
@@ -86,6 +97,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    marginHorizontal: 10,
   },
   logo: {
     margin: 20,
@@ -97,6 +109,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#EEEEEE",
+    backgroundColor: "#fff",
   },
   shadow: {
     shadowColor: "#000",
@@ -107,6 +120,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
 
-    elevation: 2,
+    elevation: 5,
+  },
+  title: {
+    marginBottom: 20,
+    alignSelf: "stretch",
+    fontWeight: "bold",
+    color: "#32305D",
+    fontSize: 26,
   },
 });
