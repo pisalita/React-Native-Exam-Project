@@ -31,10 +31,6 @@ const CreateUser = () => {
     setter(value);
   };
 
-  const getCheckboxValue = (value: boolean) => {
-    setChecked(value);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require("../logo.png")} />
