@@ -14,12 +14,14 @@ import { useAppDispatch } from "../app/hooks";
 import { createUser } from "../features/User";
 import CustomButton from "../components/CustomButton";
 import CustomInputfield from "../components/CustomInputfield";
+import CustomCheckbox from "../components/CustomCheckbox";
 
 const CreateUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const dispatch = useAppDispatch();
+  const [checked, setChecked] = useState(false);
 
   const combinedOnChange = (
     setter: React.Dispatch<React.SetStateAction<string>>,
@@ -27,6 +29,10 @@ const CreateUser = () => {
   ): void => {
     const value = e.nativeEvent.text;
     setter(value);
+  };
+
+  const getChildData = (data: boolean) => {
+    setChecked(data);
   };
 
   return (
@@ -77,10 +83,20 @@ const CreateUser = () => {
         )}
       </View>
 
+      <View style={{ flex: 1, flexDirection: "row", marginVertical: 20 }}>
+        <CustomCheckbox getChildData={getChildData} />
+        <Text>{"  "}I agree to the terms and conditions</Text>
+      </View>
+
       <CustomButton
         title="Create user"
         onPress={() => {
-          if (email && password !== "" && password === password2) {
+          if (
+            email &&
+            password !== "" &&
+            password === password2 &&
+            checked === true
+          ) {
             dispatch(createUser({ email, password }));
           }
         }}
