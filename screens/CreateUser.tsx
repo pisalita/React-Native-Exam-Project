@@ -31,8 +31,8 @@ const CreateUser = () => {
     setter(value);
   };
 
-  const getChildData = (data: boolean) => {
-    setChecked(data);
+  const getCheckboxValue = (value: boolean) => {
+    setChecked(value);
   };
 
   return (
@@ -84,19 +84,18 @@ const CreateUser = () => {
       </View>
 
       <View style={{ flex: 1, flexDirection: "row", marginVertical: 20 }}>
-        <CustomCheckbox getChildData={getChildData} />
+        <CustomCheckbox
+          getCheckboxValue={(value: boolean) => {
+            setChecked(value);
+          }}
+        />
         <Text>{"  "}I agree to the terms and conditions</Text>
       </View>
 
       <CustomButton
         title="Create user"
         onPress={() => {
-          if (
-            email &&
-            password !== "" &&
-            password === password2 &&
-            checked === true
-          ) {
+          if (email && password !== "" && password === password2 && checked) {
             dispatch(createUser({ email, password }));
           }
         }}

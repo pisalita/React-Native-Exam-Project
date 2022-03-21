@@ -2,20 +2,27 @@ import { StyleSheet, Pressable } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-const CustomCheckbox = ({ getChildData }: any) => {
+const CustomCheckbox = ({
+  getCheckboxValue,
+}: {
+  getCheckboxValue: (value: boolean) => void;
+}) => {
   const [checked, setChecked] = useState(false);
 
   function onCheckmarkPress() {
     setChecked(!checked);
-    getChildData(checked);
   }
 
   return (
     <Pressable
       style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-      onPress={onCheckmarkPress}
+      onPress={() => {
+        onCheckmarkPress();
+        //returning the !checked as we send the value before the component rerenders and therefore the value doesent get updated before we return it.
+        getCheckboxValue(!checked);
+      }}
     >
-      {checked && <Ionicons name="checkmark" size={24} color="white" />}
+      {checked && <Ionicons name="checkmark" size={20} color="white" />}
     </Pressable>
   );
 };
