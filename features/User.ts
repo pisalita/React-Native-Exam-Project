@@ -3,26 +3,20 @@ import { User } from "../interfaces/IUser";
 
 type errorFormat = {
   error: {
-    errors: [
-      {
-        domain: string;
-        reason: string;
-        message: string;
-      }
-    ];
-    code: number;
-    message: string;
-  };
+    code?: number | undefined;
+    message?: string | undefined;
+  }
 };
 
 interface UserSliceState {
   user: User | null;
-  error: errorFormat | undefined;
+  error: {code: number | undefined, message: string | undefined};
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 const initialState: UserSliceState = {
   user: null,
-  error: undefined,
+  error: {code: 200,
+  message: "no errors"},
   loading: "idle",
 };
 
@@ -104,7 +98,8 @@ export const userSlice = createSlice({
       state.loading = "succeeded";
     });
     builder.addCase(createUser.rejected, (state, action) => {
-      state.error = action.payload;
+      state.error.code = action.payload?.error.code;
+      state.error.message = action.payload?.error.message;
       state.loading = "failed";
     });
     builder.addCase(login.pending, (state) => {
@@ -118,7 +113,8 @@ export const userSlice = createSlice({
       state.loading = "succeeded";
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.error = action.payload;
+      state.error.code = action.payload?.error.code;
+      state.error.message = action.payload?.error.message;
       state.loading = "failed";
     });
   },
