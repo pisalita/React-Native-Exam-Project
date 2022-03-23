@@ -1,11 +1,9 @@
 import {
-  Button,
   Image,
   NativeSyntheticEvent,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TextInputChangeEventData,
   View,
 } from "react-native";

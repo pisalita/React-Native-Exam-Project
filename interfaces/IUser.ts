@@ -1,5 +1,5 @@
 export interface User {
-  localId?: string;
+  idToken?: string | undefined;
   name?: string;
   email: string;
   password?: string;

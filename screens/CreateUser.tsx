@@ -1,8 +1,6 @@
 import {
-  TextInput,
   NativeSyntheticEvent,
   TextInputChangeEventData,
-  Button,
   SafeAreaView,
   View,
   StyleSheet,

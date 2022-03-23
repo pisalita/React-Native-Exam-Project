@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../interfaces/IUser";
 
 type errorFormat = {
@@ -17,16 +17,20 @@ type errorFormat = {
 
 interface UserSliceState {
   user: User | null;
-  error: any;
+  error: errorFormat | undefined;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 const initialState: UserSliceState = {
   user: null,
-  error: { error: "No errors" },
+  error: undefined,
   loading: "idle",
 };
 
-export const createUser = createAsyncThunk(
+export const createUser = createAsyncThunk<
+User,  
+User,
+  {rejectValue : errorFormat}
+>(
   "user/createUser",
   async (user: User, { rejectWithValue }) => {
     const { email, password } = user;
@@ -46,14 +50,18 @@ export const createUser = createAsyncThunk(
       }
     );
     if (!res.ok) {
-      return rejectWithValue(await res.json());
+      return rejectWithValue(await res.json() as errorFormat);
     } else {
       return await res.json();
     }
   }
 );
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<
+User,  
+User,
+  {rejectValue : errorFormat}
+>(
   "user/login",
   async (user: User, { rejectWithValue }) => {
     const { email, password } = user;
@@ -73,7 +81,7 @@ export const login = createAsyncThunk(
       }
     );
     if (!res.ok) {
-      return rejectWithValue(await res.json());
+      return rejectWithValue(await res.json() as errorFormat);
     } else {
       return await res.json();
     }
@@ -90,7 +98,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.user = {
-        localId: action.payload.localId,
+        idToken: action.payload.idToken,
         email: action.payload.email,
       };
       state.loading = "succeeded";
@@ -104,7 +112,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = {
-        localId: action.payload.localId,
+        idToken: action.payload.idToken,
         email: action.payload.email,
       };
       state.loading = "succeeded";
