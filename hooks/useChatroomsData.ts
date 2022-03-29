@@ -10,7 +10,7 @@ const fetchChatrooms = async () => {
 };
 
 const addChatroom = async (chatroom: Chatroom) => {
-  const response = await fetch(url, {
+  await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,8 +19,6 @@ const addChatroom = async (chatroom: Chatroom) => {
       ...chatroom,
     }),
   });
-  if (response.ok) {
-  }
 };
 
 export const useChatroomsData = () => {
