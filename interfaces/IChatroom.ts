@@ -1,5 +1,5 @@
 export interface Chatroom {
-  id: string;
+  id?: string;
   title: string;
-  messages: string[];
+  messages?: string[];
 }

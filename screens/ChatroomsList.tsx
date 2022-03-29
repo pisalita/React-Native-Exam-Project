@@ -12,8 +12,10 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ChatStackParamList } from "../types/ChatStackParamList";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { createChatroom } from "../features/Chatrooms";
+import {
+  useAddChatroomsData,
+  useChatroomsData,
+} from "../hooks/useChatroomsData";
 
 type ScreenNavigationType = NativeStackNavigationProp<
   ChatStackParamList,
@@ -22,8 +24,8 @@ type ScreenNavigationType = NativeStackNavigationProp<
 
 const ChatroomsList = () => {
   const navigation = useNavigation<ScreenNavigationType>();
-  const chatrooms = useAppSelector((state) => state.chatrooms.chatrooms);
-  const dispatch = useAppDispatch();
+  const { data, isLoading, error, isError }: any = useChatroomsData();
+  const { mutate } = useAddChatroomsData();
   const [chatroomTitle, setChatroomTitle] = useState<string>("");
 
   const onTitleChange = (
@@ -33,13 +35,29 @@ const ChatroomsList = () => {
     setChatroomTitle(value);
   };
 
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View>
+        <Text>{error.message}</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.flatList}
-        data={chatrooms}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Text>{item.title}</Text>}
+        data={Object.keys(data)}
+        keyExtractor={(item) => item as string}
+        renderItem={({ item }) => <Text>{data[item].title}</Text>}
       />
       <TextInput
         value={chatroomTitle}
@@ -51,14 +69,10 @@ const ChatroomsList = () => {
           title="Create chatroom"
           onPress={() => {
             if (chatroomTitle !== null) {
-              dispatch(createChatroom(chatroomTitle));
+              mutate({ title: chatroomTitle });
               setChatroomTitle("");
             }
           }}
-        />
-        <Button
-          title="Screen2"
-          onPress={() => navigation.navigate("Screen2")}
         />
       </View>
     </View>
