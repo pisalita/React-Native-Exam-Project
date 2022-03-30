@@ -6,7 +6,7 @@ import LoginStackNavigator from "./LoginStackNavigator";
 const Index = () => {
   const user = useAppSelector((state) => state.user.user);
 
-  return <>{!user ? <TabNavigator /> : <LoginStackNavigator />}</>;
+  return <>{user ? <TabNavigator /> : <LoginStackNavigator />}</>;
 };
 
 export default Index;

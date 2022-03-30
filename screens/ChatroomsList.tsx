@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+//import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ChatStackParamList } from "../types/ChatStackParamList";
 import {
@@ -17,14 +17,20 @@ import {
   useChatroomsData,
 } from "../hooks/useChatroomsData";
 
+//ignore max timer warning
+import { LogBox } from "react-native";
+import { useAppSelector } from "../app/hooks";
+LogBox.ignoreLogs(["Setting a timer"]);
+
 type ScreenNavigationType = NativeStackNavigationProp<
   ChatStackParamList,
   "ChatroomsList"
 >;
 
 const ChatroomsList = () => {
-  const navigation = useNavigation<ScreenNavigationType>();
-  const { data, isLoading, error, isError }: any = useChatroomsData();
+  //const navigation = useNavigation<ScreenNavigationType>();
+  const token = useAppSelector((state) => state.user.user?.idToken);
+  const { data, isLoading, error, isError }: any = useChatroomsData(token);
   const { mutate } = useAddChatroomsData();
   const [chatroomTitle, setChatroomTitle] = useState<string>("");
 
@@ -55,9 +61,9 @@ const ChatroomsList = () => {
     <View style={styles.container}>
       <FlatList
         style={styles.flatList}
-        data={Object.keys(data)}
-        keyExtractor={(item) => item as string}
-        renderItem={({ item }) => <Text>{data[item].title}</Text>}
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Text>{item.title}</Text>}
       />
       <TextInput
         value={chatroomTitle}
@@ -68,8 +74,8 @@ const ChatroomsList = () => {
         <Button
           title="Create chatroom"
           onPress={() => {
-            if (chatroomTitle !== null) {
-              mutate({ title: chatroomTitle });
+            if (chatroomTitle !== null && token) {
+              mutate({ chatroom: { title: chatroomTitle }, token: token });
               setChatroomTitle("");
             }
           }}
