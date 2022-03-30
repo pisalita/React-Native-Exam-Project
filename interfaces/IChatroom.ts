@@ -1,5 +1,8 @@
+import { User } from "./IUser";
+
 export interface Chatroom {
   id?: string;
   title: string;
-  messages?: string[];
+  timestamp?: Date;
+  messages?: [{ message: string; user: User }];
 }
