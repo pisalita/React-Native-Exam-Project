@@ -1,7 +1,7 @@
 export interface User {
-  idToken?: string | undefined;
+  idToken?: string;
   name?: string;
-  email: string;
+  email?: string;
   password?: string;
   displayName?: string;
   photoUrl?: string;

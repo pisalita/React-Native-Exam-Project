@@ -13,14 +13,16 @@ const CustomInputfield = ({
   value,
   onChange,
   secureTextEntry,
+  showError,
   errorText,
   borderBottom,
 }: {
   label: string;
   value: string;
   onChange: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
-  secureTextEntry: boolean;
-  errorText: string;
+  secureTextEntry?: boolean;
+  showError?: boolean;
+  errorText?: string;
   borderBottom?: boolean;
 }) => {
   const [touched, setTouched] = useState(false);
@@ -42,7 +44,9 @@ const CustomInputfield = ({
           setTouched(true);
         }}
       />
-      {!value && touched && <Text style={{ color: "red" }}> {errorText} </Text>}
+      {!value && touched && showError && (
+        <Text style={{ color: "red" }}> {errorText} </Text>
+      )}
     </View>
   );
 };
