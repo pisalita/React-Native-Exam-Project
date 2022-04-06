@@ -5,6 +5,8 @@ import ChatStackNavigator from "./ChatStackNavigator";
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
 
+  // useEffect that populates the SecureStorage data
+
   return (
     <Tab.Navigator
       screenOptions={{

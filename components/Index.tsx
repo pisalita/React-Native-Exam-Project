@@ -7,6 +7,8 @@ import UpdateUser from "../screens/UpdateUser";
 const Index = () => {
   const user = useAppSelector((state) => state.user.user);
 
+  //useEffect that populate user state with SecureStorage data.
+
   if (!user) {
     return <LoginStackNavigator />;
   }
