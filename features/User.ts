@@ -67,10 +67,29 @@ export const login = createAsyncThunk<User, User, { rejectValue: errorFormat }>(
         }),
       }
     );
-    if (!res.ok) {
-      return rejectWithValue((await res.json()) as errorFormat);
+
+    const { idToken } = await res.json();
+
+    //another call to get all user data (with idToken from first call). return this instead as it has all properties in response.
+    const res2 = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAZ8nPUBrJHcHbtsNUpKoycYdPVguoFffA",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idToken,
+        }),
+      }
+    );
+
+    if (!res2.ok) {
+      return rejectWithValue((await res2.json()) as errorFormat);
     } else {
-      return await res.json();
+      let res = await res2.json();
+      res = { ...res, idToken: idToken };
+      return res;
     }
   }
 );
@@ -136,6 +155,8 @@ export const userSlice = createSlice({
         ...state.user,
         idToken: action.payload.idToken,
         email: action.payload.email,
+        displayName: action.payload.displayName,
+        photoUrl: action.payload.photoUrl,
       };
     });
     builder.addCase(login.rejected, (state, action) => {
