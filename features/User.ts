@@ -13,6 +13,7 @@ interface UserSliceState {
   error: { code: number | undefined; message: string | undefined };
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
+
 const initialState: UserSliceState = {
   user: null,
   error: { code: 200, message: "no errors" },
@@ -78,8 +79,11 @@ export const updateUser = createAsyncThunk<
   User,
   User,
   { rejectValue: errorFormat }
->("user/updateUser", async (user: User, { rejectWithValue }) => {
-  const { displayName, photoUrl, idToken } = user;
+>("user/updateUser", async (data: User, { rejectWithValue, getState }: any) => {
+  const { displayName, photoUrl } = data;
+
+  const { user } = getState();
+  const idToken = user.user.idToken;
 
   const res = await fetch(
     "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAZ8nPUBrJHcHbtsNUpKoycYdPVguoFffA",
@@ -96,6 +100,7 @@ export const updateUser = createAsyncThunk<
       }),
     }
   );
+
   if (!res.ok) {
     return rejectWithValue((await res.json()) as errorFormat);
   } else {

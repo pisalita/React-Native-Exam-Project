@@ -9,17 +9,19 @@ import UpdateUser from "../screens/UpdateUser";
 const Index = () => {
   const user = useAppSelector((state) => state.user.user);
 
-  //if (!user) {
-  //  return <LoginStackNavigator />;
-  //}
+  if (!user) {
+    return <LoginStackNavigator />;
+  }
 
   // if(user){
   //  //call function for updating user
   //}
 
-  //if (!user.displayName || !user.photoUrl) {
-  return <UpdateUser />;
-  //}
+  if (!user.displayName || !user.photoUrl) {
+    return <UpdateUser />;
+  }
+
+  console.log(user);
 
   return <TabNavigator />;
 };
