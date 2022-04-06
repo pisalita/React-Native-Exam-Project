@@ -112,13 +112,11 @@ export const userSlice = createSlice({
       state.loading = "pending";
     });
     builder.addCase(createUser.fulfilled, (state, action) => {
-      if (action.payload.idToken && action.payload.email) {
-        state.user = {
-          idToken: action.payload.idToken,
-          email: action.payload.email,
-        };
-        state.loading = "succeeded";
-      }
+      state.user = {
+        ...state.user,
+        idToken: action.payload.idToken,
+        email: action.payload.email,
+      };
     });
     builder.addCase(createUser.rejected, (state, action) => {
       state.error.code = action.payload?.error.code;
@@ -129,13 +127,11 @@ export const userSlice = createSlice({
       state.loading = "pending";
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      if (action.payload.idToken && action.payload.email) {
-        state.user = {
-          idToken: action.payload.idToken,
-          email: action.payload.email,
-        };
-        state.loading = "succeeded";
-      }
+      state.user = {
+        ...state.user,
+        idToken: action.payload.idToken,
+        email: action.payload.email,
+      };
     });
     builder.addCase(login.rejected, (state, action) => {
       state.error.code = action.payload?.error.code;
@@ -146,13 +142,11 @@ export const userSlice = createSlice({
       state.loading = "pending";
     });
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      if (action.payload.displayName && action.payload.photoUrl) {
-        state.user = {
-          displayName: action.payload.displayName,
-          photoUrl: action.payload.photoUrl,
-        };
-        state.loading = "succeeded";
-      }
+      state.user = {
+        ...state.user,
+        displayName: action.payload.displayName,
+        photoUrl: action.payload.photoUrl,
+      };
     });
     builder.addCase(updateUser.rejected, (state, action) => {
       state.error.code = action.payload?.error.code;

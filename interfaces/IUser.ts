@@ -1,8 +1,7 @@
 export interface User {
-  idToken?: string;
-  name?: string;
-  email?: string;
-  password?: string;
-  displayName?: string;
-  photoUrl?: string;
+  idToken?: string | undefined;
+  email?: string | undefined;
+  password?: string | undefined;
+  displayName?: string | undefined;
+  photoUrl?: string | undefined;
 }
