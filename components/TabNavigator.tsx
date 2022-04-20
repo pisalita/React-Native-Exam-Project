@@ -1,11 +1,19 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAppSelector } from "../app/hooks";
 import ChatStackNavigator from "./ChatStackNavigator";
+import * as SecureStore from "expo-secure-store";
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
+  const user = useAppSelector((state) => state.user.user);
 
-  // useEffect that populates the SecureStorage data
+  useEffect(() => {
+    const setUserDataIntoSecureStorage = async () => {
+      await SecureStore.setItemAsync("user", JSON.stringify(user));
+    };
+    setUserDataIntoSecureStorage();
+  }, []);
 
   return (
     <Tab.Navigator
