@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../interfaces/IUser";
+import * as SecureStore from "expo-secure-store";
 
 type errorFormat = {
   error: {
@@ -100,7 +101,6 @@ export const updateUser = createAsyncThunk<
   { rejectValue: errorFormat }
 >("user/updateUser", async (data: User, { rejectWithValue, getState }: any) => {
   const { displayName, photoUrl } = data;
-
   const { user } = getState();
   const idToken = user.user.idToken;
 
@@ -130,7 +130,21 @@ export const updateUser = createAsyncThunk<
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    rehydrateUser(state, action) {
+      state.user = {
+        ...state.user,
+        idToken: action.payload.idToken,
+        email: action.payload.email,
+        displayName: action.payload.displayName,
+        photoUrl: action.payload.photoUrl,
+      };
+    },
+    logout(state) {
+      state.user = initialState.user;
+      SecureStore.deleteItemAsync("user");
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createUser.pending, (state) => {
       state.loading = "pending";
@@ -181,5 +195,7 @@ export const userSlice = createSlice({
     });
   },
 });
+
+export const { rehydrateUser, logout } = userSlice.actions;
 
 export default userSlice.reducer;

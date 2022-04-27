@@ -1,13 +1,29 @@
-import React from "react";
-import { useAppSelector } from "../app/hooks";
+import React, { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 import TabNavigator from "./TabNavigator";
 import LoginStackNavigator from "./LoginStackNavigator";
 import UpdateUser from "../screens/UpdateUser";
+import * as SecureStore from "expo-secure-store";
+import { rehydrateUser } from "../features/User";
 
 const Index = () => {
   const user = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
 
-  //useEffect that populate user state with SecureStorage data.
+  useEffect(() => {
+    const getUserDataFromSecureStorage = async () => {
+      const userJson = await SecureStore.getItemAsync("user");
+      let userFromSecureStorage = null;
+      if (userJson) {
+        userFromSecureStorage = JSON.parse(userJson);
+      }
+      if (userFromSecureStorage) {
+        dispatch(rehydrateUser(userFromSecureStorage));
+      }
+    };
+
+    getUserDataFromSecureStorage();
+  }, []);
 
   if (!user) {
     return <LoginStackNavigator />;
