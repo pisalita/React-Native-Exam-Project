@@ -30,7 +30,7 @@ type ScreenNavigationType = NativeStackNavigationProp<
 const ChatroomsList = () => {
   //const navigation = useNavigation<ScreenNavigationType>();
   const token = useAppSelector((state) => state.user.user?.idToken);
-  const { data, isLoading, error, isError }: any = useChatroomsData(token);
+  const { data, isLoading, error, isError }: any = useChatroomsData();
   const { mutate } = useAddChatroomsData();
   const [chatroomTitle, setChatroomTitle] = useState<string>("");
 
@@ -75,7 +75,7 @@ const ChatroomsList = () => {
           title="Create chatroom"
           onPress={() => {
             if (chatroomTitle !== null && token) {
-              mutate({ chatroom: { title: chatroomTitle }, token: token });
+              mutate({ chatroom: { title: chatroomTitle } });
               setChatroomTitle("");
             }
           }}

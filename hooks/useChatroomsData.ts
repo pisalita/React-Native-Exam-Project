@@ -1,11 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 import { Chatroom } from "../interfaces/IChatroom";
 
 const url =
   "https://rn-exam-project-default-rtdb.europe-west1.firebasedatabase.app/chatrooms.json?auth=";
 
-const fetchChatrooms = async (token: any) => {
-  const response = await fetch(url + token.queryKey[1]);
+const fetchChatrooms = async () => {
+  const token = useSelector((state: RootState) => state.user.user?.idToken);
+  const response = await fetch(url + token);
   const data = await response.json();
   let chatrooms: Chatroom[] = [];
 
@@ -17,13 +20,8 @@ const fetchChatrooms = async (token: any) => {
   return chatrooms;
 };
 
-const addChatroom = async ({
-  chatroom,
-  token,
-}: {
-  chatroom: Chatroom;
-  token: string;
-}) => {
+const addChatroom = async ({ chatroom }: { chatroom: Chatroom }) => {
+  const token = useSelector((state: RootState) => state.user.user?.idToken);
   await fetch(url + token, {
     method: "POST",
     headers: {
@@ -35,8 +33,8 @@ const addChatroom = async ({
   });
 };
 
-export const useChatroomsData = (token: any) => {
-  return useQuery(["chatrooms", token], fetchChatrooms);
+export const useChatroomsData = () => {
+  return useQuery("chatrooms", fetchChatrooms);
 };
 
 export const useAddChatroomsData = () => {
