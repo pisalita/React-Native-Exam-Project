@@ -19,8 +19,7 @@ import {
 
 //ignore max timer warning
 import { LogBox } from "react-native";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { logout } from "../features/User";
+import { useAppSelector } from "../app/hooks";
 LogBox.ignoreLogs(["Setting a timer"]);
 
 type ScreenNavigationType = NativeStackNavigationProp<
@@ -31,10 +30,9 @@ type ScreenNavigationType = NativeStackNavigationProp<
 const ChatroomsList = () => {
   //const navigation = useNavigation<ScreenNavigationType>();
   const token = useAppSelector((state) => state.user.user?.idToken);
-  const { data, isLoading, error, isError }: any = useChatroomsData();
+  const { data, isLoading, error, isError }: any = useChatroomsData(token);
   const { mutate } = useAddChatroomsData();
   const [chatroomTitle, setChatroomTitle] = useState<string>("");
-  const dispatch = useAppDispatch();
 
   const onTitleChange = (
     e: NativeSyntheticEvent<TextInputChangeEventData>
@@ -77,16 +75,9 @@ const ChatroomsList = () => {
           title="Create chatroom"
           onPress={() => {
             if (chatroomTitle !== null && token) {
-              mutate({ chatroom: { title: chatroomTitle } });
+              mutate({ chatroom: { title: chatroomTitle }, token: token });
               setChatroomTitle("");
             }
-          }}
-        />
-        <Button
-          title="Logout"
-          onPress={() => {
-            console.log("test");
-            dispatch(logout());
           }}
         />
       </View>
