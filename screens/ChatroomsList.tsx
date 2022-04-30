@@ -19,8 +19,9 @@ import {
 
 //ignore max timer warning
 import { LogBox } from "react-native";
-import { useAppSelector } from "../app/hooks";
 LogBox.ignoreLogs(["Setting a timer"]);
+
+import { useAppSelector } from "../app/hooks";
 
 type ScreenNavigationType = NativeStackNavigationProp<
   ChatStackParamList,

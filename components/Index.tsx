@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import TabNavigator from "./TabNavigator";
-import LoginStackNavigator from "./LoginStackNavigator";
+import TabNavigator from "./navigation/TabNavigator";
+import LoginStackNavigator from "./navigation/LoginStackNavigator";
 import UpdateUser from "../screens/UpdateUser";
 import * as SecureStore from "expo-secure-store";
 import { rehydrateUser } from "../features/User";

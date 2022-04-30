@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
   logo: {
     margin: 20,
