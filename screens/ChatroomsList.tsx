@@ -73,42 +73,44 @@ const ChatroomsList = () => {
             onPress={() => navigation.navigate("Chatroom", item)}
           >
             <View>
-              <Text>{item.title}</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                {item.title}
+              </Text>
             </View>
             <View style={styles.lastMessage}>
-              <Text ellipsizeMode="tail" numberOfLines={1}>
+              <Text
+                style={{ flex: 1, marginRight: 20, color: "#707070" }}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+              >
                 {item.messages[0]
                   ? item.messages[item.messages.length - 1]?.message
-                  : "no messages"}
+                  : "no messages yet"}
               </Text>
               <Text style={styles.messageTimestamp}>
-                {item.messages[0]
-                  ? item.messages[item.messages.length - 1]?.timestamp.getDate()
+                {item.messages[item.messages.length - 1]?.timestamp.getDate() <
+                10
+                  ? "0"
                   : ""}
-                -
-                {item.messages[0]
-                  ? item.messages[
-                      item.messages.length - 1
-                    ]?.timestamp.getMonth()
+                {item.messages[item.messages.length - 1]?.timestamp.getDate()}-
+                {item.messages[item.messages.length - 1]?.timestamp.getMonth() <
+                10
+                  ? "0"
                   : ""}
-                -
-                {item.messages[0]
-                  ? item.messages[
-                      item.messages.length - 1
-                    ]?.timestamp.getFullYear()
-                  : ""}
+                {item.messages[item.messages.length - 1]?.timestamp.getMonth()}-
+                {item.messages[
+                  item.messages.length - 1
+                ]?.timestamp.getFullYear()}
                 {" / "}
-                {item.messages[0]
-                  ? item.messages[
-                      item.messages.length - 1
-                    ]?.timestamp.getHours()
+                {item.messages[item.messages.length - 1]?.timestamp.getHours()}:
+                {item.messages[
+                  item.messages.length - 1
+                ]?.timestamp.getMinutes() < 10
+                  ? "0"
                   : ""}
-                :
-                {item.messages[0]
-                  ? item.messages[
-                      item.messages.length - 1
-                    ]?.timestamp.getMinutes()
-                  : ""}
+                {item.messages[
+                  item.messages.length - 1
+                ]?.timestamp.getMinutes()}
               </Text>
             </View>
           </TouchableOpacity>

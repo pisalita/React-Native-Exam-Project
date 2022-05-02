@@ -94,10 +94,14 @@ const Chatroom = ({ route }: any) => {
               ) : (
                 ""
               )}
-              {item.timestamp.getDate()}-{item.timestamp.getMonth()}-
-              {item.timestamp.getFullYear()}
+              {item.timestamp.getDate() < 10 ? "0" : ""}
+              {item.timestamp.getDate()}-
+              {item.timestamp.getMonth() < 10 ? "0" : ""}
+              {item.timestamp.getMonth()}-{item.timestamp.getFullYear()}
               {" / "}
-              {item.timestamp.getHours()}:{item.timestamp.getMinutes()}
+              {item.timestamp.getHours()}:
+              {item.timestamp.getMinutes() < 10 ? "0" : ""}
+              {item.timestamp.getMinutes()}
             </Text>
           </View>
         )}
@@ -141,6 +145,7 @@ const styles = StyleSheet.create({
   },
   senderMessage: {
     marginLeft: "auto",
+    maxWidth: "80%",
     padding: 10,
     backgroundColor: "#5050A5",
     borderTopLeftRadius: 12,
@@ -156,6 +161,7 @@ const styles = StyleSheet.create({
   receiverMessage: {
     padding: 10,
     backgroundColor: "lightgrey",
+    maxWidth: "80%",
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     borderBottomRightRadius: 12,
