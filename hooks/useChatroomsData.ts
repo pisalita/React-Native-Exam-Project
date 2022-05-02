@@ -23,7 +23,7 @@ const fetchChatrooms = async (token: any) => {
         id: key,
         message: message.message,
         user: message.user,
-        timestamp: message.timestamp,
+        timestamp: new Date(message.timestamp),
       });
     }
 

@@ -1,6 +1,7 @@
 import {
   Button,
   FlatList,
+  Image,
   NativeSyntheticEvent,
   StyleSheet,
   Text,
@@ -8,13 +9,18 @@ import {
   TextInputChangeEventData,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useAppSelector } from "../app/hooks";
 import {
   useAddChatroomMessage,
   useChatroomsData,
 } from "../hooks/useChatroomsData";
-import { iteratorSymbol } from "immer/dist/internal";
+
+//ignore non-serializable warning
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 
 const Chatroom = ({ route }: any) => {
   const item = route.params;
@@ -55,35 +61,47 @@ const Chatroom = ({ route }: any) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              {item.user.email !== user?.email ? (
+                <Image
+                  style={styles.senderMessageAvatar}
+                  source={{ uri: user?.photoUrl }}
+                />
+              ) : (
+                <Text></Text>
+              )}
+              <Text
+                style={
+                  user?.email === item.user.email
+                    ? styles.senderMessage
+                    : styles.receiverMessage
+                }
+              >
+                {item.message}
+              </Text>
+            </View>
             <Text
               style={
-                user?.email !== item.user.email
-                  ? styles.senderMessage
-                  : styles.receiverMessage
+                user?.email === item.user.email
+                  ? styles.senderMessageTime
+                  : styles.receiverMessageTime
               }
             >
-              {item.message}
+              {item.user.email !== user?.email ? (
+                <Text>
+                  {item.user.displayName} {" / "}
+                </Text>
+              ) : (
+                ""
+              )}
+              {item.timestamp.getDate()}-{item.timestamp.getMonth()}-
+              {item.timestamp.getFullYear()}
+              {" / "}
+              {item.timestamp.getHours()}:{item.timestamp.getMinutes()}
             </Text>
           </View>
         )}
       />
-      {/* {chatroom.messages?.map((message: any) => {
-          {
-            return (
-              <Text
-                style={
-                  user?.email !== message.user.email
-                    ? styles.senderMessage
-                    : styles.receiverMessage
-                }
-                key={message.id}
-              >
-                {message.message}
-              </Text>
-            );
-          }
-        })} */}
-
       <View>
         <TextInput
           style={{ marginTop: 20 }}
@@ -122,17 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   senderMessage: {
-    padding: 10,
-    backgroundColor: "lightgrey",
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomRightRadius: 12,
-    borderBottomLeftRadius: 4,
-    color: "#333333",
-    marginRight: "auto",
-    marginVertical: 2,
-  },
-  receiverMessage: {
     marginLeft: "auto",
     padding: 10,
     backgroundColor: "#5050A5",
@@ -143,8 +150,31 @@ const styles = StyleSheet.create({
     color: "white",
     marginVertical: 2,
   },
+  senderMessageTime: {
+    marginLeft: "auto",
+  },
+  receiverMessage: {
+    padding: 10,
+    backgroundColor: "lightgrey",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 4,
+    color: "#333333",
+    marginRight: "auto",
+    marginVertical: 2,
+  },
+  receiverMessageTime: {
+    marginRight: "auto",
+  },
   flatList: {
     width: "100%",
     flex: 1,
+  },
+  senderMessageAvatar: {
+    borderRadius: 40,
+    width: 40,
+    height: 40,
+    marginRight: 10,
   },
 });

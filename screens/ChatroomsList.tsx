@@ -75,16 +75,42 @@ const ChatroomsList = () => {
             <View>
               <Text>{item.title}</Text>
             </View>
-            {/* <View style={styles.lastMessage}>
+            <View style={styles.lastMessage}>
               <Text ellipsizeMode="tail" numberOfLines={1}>
-                {item.messages ? item.messages.message : "no messages"}
+                {item.messages[0]
+                  ? item.messages[item.messages.length - 1]?.message
+                  : "no messages"}
               </Text>
               <Text style={styles.messageTimestamp}>
-                {item.messages
-                  ? item.messages.message[item.messages.length - 1].timestamp
-                  : "test"}
+                {item.messages[0]
+                  ? item.messages[item.messages.length - 1]?.timestamp.getDate()
+                  : ""}
+                -
+                {item.messages[0]
+                  ? item.messages[
+                      item.messages.length - 1
+                    ]?.timestamp.getMonth()
+                  : ""}
+                -
+                {item.messages[0]
+                  ? item.messages[
+                      item.messages.length - 1
+                    ]?.timestamp.getFullYear()
+                  : ""}
+                {" / "}
+                {item.messages[0]
+                  ? item.messages[
+                      item.messages.length - 1
+                    ]?.timestamp.getHours()
+                  : ""}
+                :
+                {item.messages[0]
+                  ? item.messages[
+                      item.messages.length - 1
+                    ]?.timestamp.getMinutes()
+                  : ""}
               </Text>
-            </View> */}
+            </View>
           </TouchableOpacity>
         )}
       />
