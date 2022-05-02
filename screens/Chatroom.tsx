@@ -1,5 +1,6 @@
 import {
   Button,
+  FlatList,
   NativeSyntheticEvent,
   StyleSheet,
   Text,
@@ -13,6 +14,7 @@ import {
   useAddChatroomMessage,
   useChatroomsData,
 } from "../hooks/useChatroomsData";
+import { iteratorSymbol } from "immer/dist/internal";
 
 const Chatroom = ({ route }: any) => {
   const item = route.params;
@@ -21,6 +23,7 @@ const Chatroom = ({ route }: any) => {
   const user = useAppSelector((state) => state.user.user);
   const { data, isLoading, error, isError }: any = useChatroomsData(token);
 
+  const [chatroom, setChatroom] = useState<any>({});
   const [message, setMessage] = useState<string>("");
 
   const onMessageChange = (
@@ -28,14 +31,43 @@ const Chatroom = ({ route }: any) => {
   ): void => {
     const value = e.nativeEvent.text;
     setMessage(value);
-    console.log(data);
   };
+
+  useEffect(() => {
+    const chatrooms = data.find((room: any) => room.id === item.id);
+    setChatroom({ ...chatrooms, messages: chatrooms.messages.reverse() });
+  }, [data]);
+
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.messages}>
-        {/* MAKE THIS RERENDER WHEN DATA CHANGES */}
-        {item.messages?.map((message: any) => {
+      <FlatList
+        inverted={true}
+        style={styles.flatList}
+        data={chatroom.messages}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View>
+            <Text
+              style={
+                user?.email !== item.user.email
+                  ? styles.senderMessage
+                  : styles.receiverMessage
+              }
+            >
+              {item.message}
+            </Text>
+          </View>
+        )}
+      />
+      {/* {chatroom.messages?.map((message: any) => {
           {
             return (
               <Text
@@ -50,8 +82,8 @@ const Chatroom = ({ route }: any) => {
               </Text>
             );
           }
-        })}
-      </View>
+        })} */}
+
       <View>
         <TextInput
           style={{ marginTop: 20 }}
@@ -89,10 +121,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: "#F5F5F5",
   },
-  messages: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
   senderMessage: {
     padding: 10,
     backgroundColor: "lightgrey",
@@ -114,5 +142,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 12,
     color: "white",
     marginVertical: 2,
+  },
+  flatList: {
+    width: "100%",
+    flex: 1,
   },
 });
