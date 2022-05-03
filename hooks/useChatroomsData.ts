@@ -30,7 +30,7 @@ const fetchChatrooms = async (token: any) => {
     chatrooms.push({
       id: key,
       title: obj.title,
-      messages: messages,
+      messages: messages.reverse(),
     });
   }
   return chatrooms;

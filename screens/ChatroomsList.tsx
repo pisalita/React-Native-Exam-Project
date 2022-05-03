@@ -70,7 +70,7 @@ const ChatroomsList = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.chatroomContainer}
-            onPress={() => navigation.navigate("Chatroom", item)}
+            onPress={() => navigation.navigate("Chatroom", item.id)}
           >
             <View>
               <Text style={{ fontWeight: "bold", fontSize: 16 }}>
@@ -84,33 +84,19 @@ const ChatroomsList = () => {
                 numberOfLines={1}
               >
                 {item.messages[0]
-                  ? item.messages[item.messages.length - 1]?.message
+                  ? item.messages[0]?.message
                   : "no messages yet"}
               </Text>
               <Text style={styles.messageTimestamp}>
-                {item.messages[item.messages.length - 1]?.timestamp.getDate() <
-                10
-                  ? "0"
-                  : ""}
-                {item.messages[item.messages.length - 1]?.timestamp.getDate()}-
-                {item.messages[item.messages.length - 1]?.timestamp.getMonth() <
-                10
-                  ? "0"
-                  : ""}
-                {item.messages[item.messages.length - 1]?.timestamp.getMonth()}-
-                {item.messages[
-                  item.messages.length - 1
-                ]?.timestamp.getFullYear()}
+                {item.messages[0]?.timestamp.getDate() < 10 ? "0" : ""}
+                {item.messages[0]?.timestamp.getDate()}-
+                {item.messages[0]?.timestamp.getMonth() < 10 ? "0" : ""}
+                {item.messages[0]?.timestamp.getMonth()}-
+                {item.messages[0]?.timestamp.getFullYear()}
                 {" / "}
-                {item.messages[item.messages.length - 1]?.timestamp.getHours()}:
-                {item.messages[
-                  item.messages.length - 1
-                ]?.timestamp.getMinutes() < 10
-                  ? "0"
-                  : ""}
-                {item.messages[
-                  item.messages.length - 1
-                ]?.timestamp.getMinutes()}
+                {item.messages[0]?.timestamp.getHours()}:
+                {item.messages[0]?.timestamp.getMinutes() < 10 ? "0" : ""}
+                {item.messages[0]?.timestamp.getMinutes()}
               </Text>
             </View>
           </TouchableOpacity>
@@ -166,5 +152,6 @@ const styles = StyleSheet.create({
   },
   messageTimestamp: {
     marginLeft: "auto",
+    color: "#707070",
   },
 });

@@ -9,25 +9,19 @@ import {
   TextInputChangeEventData,
   View,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../app/hooks";
 import {
   useAddChatroomMessage,
   useChatroomsData,
 } from "../hooks/useChatroomsData";
 
-//ignore non-serializable warning
-import { LogBox } from "react-native";
-LogBox.ignoreLogs([
-  "Non-serializable values were found in the navigation state",
-]);
-
 const Chatroom = ({ route }: any) => {
-  const item = route.params;
+  const chatroomId = route.params;
   const token = useAppSelector((state) => state.user.user?.idToken);
   const { mutate } = useAddChatroomMessage();
   const user = useAppSelector((state) => state.user.user);
-  const { data, isLoading, error, isError }: any = useChatroomsData(token);
+  const { data, isLoading }: any = useChatroomsData(token);
 
   const [chatroom, setChatroom] = useState<any>({});
   const [message, setMessage] = useState<string>("");
@@ -40,8 +34,7 @@ const Chatroom = ({ route }: any) => {
   };
 
   useEffect(() => {
-    const chatrooms = data.find((room: any) => room.id === item.id);
-    setChatroom({ ...chatrooms, messages: chatrooms.messages.reverse() });
+    setChatroom(data.find((room: any) => room.id === chatroomId));
   }, [data]);
 
   if (isLoading) {
@@ -99,6 +92,7 @@ const Chatroom = ({ route }: any) => {
               {item.timestamp.getMonth() < 10 ? "0" : ""}
               {item.timestamp.getMonth()}-{item.timestamp.getFullYear()}
               {" / "}
+              {item.timestamp.getHours() < 10 ? "0" : ""}
               {item.timestamp.getHours()}:
               {item.timestamp.getMinutes() < 10 ? "0" : ""}
               {item.timestamp.getMinutes()}
@@ -118,7 +112,7 @@ const Chatroom = ({ route }: any) => {
           onPress={() => {
             if (message !== null && token && user) {
               mutate({
-                id: item.id,
+                id: chatroomId,
                 messages: {
                   message: message,
                   user: user,
@@ -155,9 +149,6 @@ const styles = StyleSheet.create({
     color: "white",
     marginVertical: 2,
   },
-  senderMessageTime: {
-    marginLeft: "auto",
-  },
   receiverMessage: {
     padding: 10,
     backgroundColor: "lightgrey",
@@ -170,8 +161,13 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginVertical: 2,
   },
+  senderMessageTime: {
+    marginLeft: "auto",
+    color: "#707070",
+  },
   receiverMessageTime: {
     marginRight: "auto",
+    color: "#707070",
   },
   flatList: {
     width: "100%",
