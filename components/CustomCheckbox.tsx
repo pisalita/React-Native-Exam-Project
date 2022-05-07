@@ -10,7 +10,7 @@ const CustomCheckbox = ({
   const [checked, setChecked] = useState(false);
 
   function onCheckmarkPress() {
-    setChecked(!checked);
+    setChecked((prev) => !prev);
   }
 
   return (
@@ -18,8 +18,7 @@ const CustomCheckbox = ({
       style={[styles.checkboxBase, checked && styles.checkboxChecked]}
       onPress={() => {
         onCheckmarkPress();
-        //returning the !checked as we send the value before the component rerenders and therefore the value doesent get updated before we return it.
-        getCheckboxValue(!checked);
+        getCheckboxValue(checked);
       }}
     >
       {checked && <Ionicons name="checkmark" size={20} color="white" />}
