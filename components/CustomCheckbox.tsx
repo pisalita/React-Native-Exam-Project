@@ -1,5 +1,5 @@
 import { StyleSheet, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 const CustomCheckbox = ({
@@ -13,12 +13,15 @@ const CustomCheckbox = ({
     setChecked((prev) => !prev);
   }
 
+  useEffect(() => {
+    getCheckboxValue(checked);
+  }, [checked]);
+
   return (
     <Pressable
       style={[styles.checkboxBase, checked && styles.checkboxChecked]}
       onPress={() => {
         onCheckmarkPress();
-        getCheckboxValue(checked);
       }}
     >
       {checked && <Ionicons name="checkmark" size={20} color="white" />}
